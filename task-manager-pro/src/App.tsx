@@ -1,42 +1,23 @@
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "@/app/hooks";
-import { addTask, deleteTask } from "@/features/tasks/tasksSlice";
+import { useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import { useAppDispatch } from "@/app/hooks";
+import { fetchTasks } from "@/features/tasks/tasksSlice";
+
+import Home from "@/pages/Home";
+import TaskDetails from "@/pages/TaskDetails";
 
 function App() {
-  const [text, setText] = useState("");
   const dispatch = useAppDispatch();
-  const tasks = useAppSelector((state) => state.tasks.items);
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Task Manager</h1>
-
-      <input
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="New task"
-      />
-
-      <button
-        onClick={() => {
-          dispatch(addTask(text));
-          setText("");
-        }}
-      >
-        Add
-      </button>
-
-      <ul>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            {task.title}
-            <button onClick={() => dispatch(deleteTask(task.id))}>
-              ❌
-            </button>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/task/:id" element={<TaskDetails />} />
+    </Routes>
   );
 }
 
