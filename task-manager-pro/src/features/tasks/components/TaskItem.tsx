@@ -8,11 +8,23 @@ import {
   Stack,
   Box,
 } from "@mui/material";
+// MUI — ок 
+
 import DeleteIcon from "@mui/icons-material/Delete";
+// иконка
+
 import { useAppDispatch } from "@/app/hooks";
+// типизированный dispatch 
+
 import { deleteTaskAsync, changeStatus } from "../tasksSlice";
+// actions
+
 import type { Task } from "../tasksSlice";
+// тип задачи
+
 import { useNavigate } from "react-router-dom";
+// навигация
+
 
 const TaskItem = ({ task }: { task: Task }) => {
   const dispatch = useAppDispatch();
@@ -23,13 +35,13 @@ const TaskItem = ({ task }: { task: Task }) => {
       sx={{
         mb: 2,
         borderRadius: 2,
-        cursor: "pointer",
+        cursor: "pointer", // UX 
         transition: "0.2s",
         "&:hover": {
-          boxShadow: 6,
+          boxShadow: 6, // hover эффект 
         },
       }}
-      onClick={() => navigate(`/task/${task.id}`)}
+      onClick={() => navigate(`/task/${task.id}`)} // переход
     >
       <CardContent>
         <Stack
@@ -45,7 +57,10 @@ const TaskItem = ({ task }: { task: Task }) => {
             <Select
               size="small"
               value={task.status}
-              onClick={(e) => e.stopPropagation()} // ❗ чтобы не было перехода
+
+              //  правильно остановил всплытие
+              onClick={(e) => e.stopPropagation()}
+
               onChange={(e) =>
                 dispatch(
                   changeStatus({
@@ -63,7 +78,7 @@ const TaskItem = ({ task }: { task: Task }) => {
             <IconButton
               color="error"
               onClick={(e) => {
-                e.stopPropagation(); // ❗ фикс бага
+                e.stopPropagation(); //  фикс бага
                 dispatch(deleteTaskAsync(task.id));
               }}
             >

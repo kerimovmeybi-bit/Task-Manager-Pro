@@ -1,15 +1,30 @@
 import { useState } from "react";
+// локальный state для input
+
 import { TextField, Button, Stack } from "@mui/material";
+// UI компоненты
+
 import { useAppDispatch } from "@/app/hooks";
+// типизированный dispatch 
+
 import { addTaskAsync } from "../tasksSlice";
+// async action
+
 
 const TaskForm = () => {
   const [text, setText] = useState("");
+  // состояние инпута
+
   const dispatch = useAppDispatch();
 
   const handleAdd = () => {
+    // защита от пустых строк 
     if (!text.trim()) return;
+
+    // отправляем action
     dispatch(addTaskAsync(text));
+
+    // очищаем input
     setText("");
   };
 
